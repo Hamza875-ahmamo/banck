@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.softsofi.enums.AccountStatus;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -14,14 +16,15 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 public class BanckAccount {
     @Id
     private String id;
-    private double balance;
+    private BigDecimal balance;
     private Date createdAt;
     @ManyToOne
     private Customer customer;
     private AccountStatus status;
-    @OneToMany(mappedBy = "banckAccount")
+    @OneToMany(mappedBy = "banckAccount",fetch = FetchType.LAZY)
     private List<AccountOperation> operations;
 }
