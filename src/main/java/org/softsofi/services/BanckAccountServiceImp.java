@@ -3,10 +3,13 @@ package org.softsofi.services;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+
+import org.softsofi.dto.CustomerDto;
 import org.softsofi.entities.*;
 import org.softsofi.exeception.BanckAccountNotFoundExeception;
 import org.softsofi.exeception.BlanceNotSufficientExeception;
 import org.softsofi.exeception.CustomerNotFoundExeception;
+import org.softsofi.mappers.CustomerMapper;
 import org.softsofi.repositories.AccountOperationRepository;
 import org.softsofi.repositories.BanckAccountRepository;
 import org.softsofi.repositories.CustomerRepository;
@@ -14,6 +17,7 @@ import org.softsofi.repositories.CustomerRepository;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 @AllArgsConstructor
 @ApplicationScoped
 @Transactional
@@ -22,11 +26,13 @@ public class BanckAccountServiceImp implements BanckAccountService {
     private final   CustomerRepository customerRepository;
     private final BanckAccountRepository banckAccountRepository;
     private final AccountOperationRepository accountOperationService ;
+    private final CustomerMapper customerMapper;
 
     @Override
-    public Customer saveCustomer(Customer customer) {
+    public CustomerDto saveCustomer(CustomerDto customerDto) {
+        Customer customer = customerMapper.toEntity(customerDto);
         customerRepository.persist(customer);
-        ;return  customer;
+        ;return  customerMapper.toDto(customer);
     }
 
     @Override
@@ -61,10 +67,17 @@ public class BanckAccountServiceImp implements BanckAccountService {
 
 
     @Override
-    public List<Customer> listCustomers() {
-        return customerRepository.listAll();
+    public List<CustomerDto> listCustomers() {
+       List<Customer> customers= customerRepository.listAll();
+       return customers.stream().map(customerMapper::toDto).collect(Collectors.toList());
     }
 
+    @Override
+    public CustomerDto getCustomerById(Long id) throws CustomerNotFoundExeception {
+        Customer customer = customerRepository.findById(id);
+        if (customer == null) throw new CustomerNotFoundExeception("Customer not found");
+        return customerMapper.toDto(customer);
+    }
     @Override
     public BanckAccount getBanckAccountById(String accountId) throws BanckAccountNotFoundExeception {
             BanckAccount banckAccount = banckAccountRepository.findById(accountId);
