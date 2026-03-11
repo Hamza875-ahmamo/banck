@@ -1,80 +1,57 @@
-# crudreservationapp
+# Digital Bank API
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Cette API RESTful développée avec **Quarkus** gère les opérations backend d'une banque digitale, permettant de manipuler des clients (Customers) et leurs comptes bancaires (Courant ou Épargne), ainsi que d'effectuer des opérations comme des crédits ou débits.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## 🚀 Technologies utilisées
 
-## Running the application in dev mode
+- **Quarkus** (Le framework Java Supersonic Subatomic)
+- **Java 17+**
+- **Hibernate ORM avec Panache** pour l'accès aux données.
+- **PostgreSQL** comme base de données principale.
+- **RESTEasy** (Jakarta REST) pour exposer les endpoints d'API.
+- **MapStruct & Lombok** pour le mapping DTO (Data Transfer Object) fluide.
 
-You can run your application in dev mode that enables live coding using:
+## ⚙️ Prérequis
+
+- JDK 17 ou supérieur
+- Maven 3.8.1+
+- PostgreSQL en cours d'exécution (avec une base `Banck` et des identifiants valides configurés dans `application.properties`)
+
+## 🏃 Lancement du projet en mode Développement
+
+Vous pouvez lancer l'application en mode "Live Coding" (rechargement à chaud) grâce à la commande :
 
 ```shell script
 ./mvnw quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+> **Note :** Quarkus intègre une interface Dev UI accessible uniquement en mode développement via [http://localhost:8080/q/dev/](http://localhost:8080/q/dev/).
 
-## Packaging and running the application
+## 📦 Packaging et exécution en mode Production
 
-The application can be packaged using:
+Pour empaqueter l'application :
 
 ```shell script
 ./mvnw package
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
+L'application compilée peut alors être exécutée avec :
 
 ```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+java -jar target/quarkus-app/quarkus-run.jar
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+## 🔌 API Endpoints principaux
 
-## Creating a native executable
+L'API de gestion des clients est exposée sur `http://localhost:8080/api/customers`.
 
-You can create a native executable using:
+| Méthode HTTP | URL                   | Description                             |
+| ------------ | --------------------- | --------------------------------------- |
+| `GET`        | `/api/customers`      | Récupère la liste de tous les clients   |
+| `GET`        | `/api/customers/{id}` | Récupère les détails d'un client par ID |
+| `POST`       | `/api/customers`      | Crée un nouveau client                  |
 
-```shell script
-./mvnw package -Dnative
-```
+## 🗄️ Configuration de la base de données
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/crudreservationapp-1.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- REST resources for Hibernate ORM with Panache ([guide](https://quarkus.io/guides/rest-data-panache)): Generate Jakarta
-  REST resources for your Hibernate Panache entities and repositories
-- RESTEasy Classic JSON-B ([guide](https://quarkus.io/guides/rest-json)): JSON-B serialization support for RESTEasy
-  Classic
-- SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes
-  with Swagger UI
-- RESTEasy Classic ([guide](https://quarkus.io/guides/resteasy)): REST endpoint framework implementing Jakarta REST and
-  more
-- JDBC Driver - MySQL ([guide](https://quarkus.io/guides/datasource)): Connect to the MySQL database via JDBC
-
-## Provided Code
-
-### REST Data with Panache
-
-Generating Jakarta REST resources with Panache
-
-[Related guide section...](https://quarkus.io/guides/rest-data-panache)
-
-### RESTEasy JAX-RS
-
-Easily start your RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
+Par défaut, l'application est configurée pour auto-générer les tables (grâce à `quarkus.hibernate-orm.database.generation=update`) dans PostgreSQL via les entités JPA.
+Assurez-vous de modifier si besoin `src/main/resources/application.properties` pour correspondre à vos identifiants locaux de base de données.

@@ -32,7 +32,7 @@ public class BanckAccountServiceImp implements BanckAccountService {
     public CustomerDto saveCustomer(CustomerDto customerDto) {
         Customer customer = customerMapper.toEntity(customerDto);
         customerRepository.persist(customer);
-        ;return  customerMapper.toDto(customer);
+        return  customerMapper.toDto(customer);
     }
 
     @Override
