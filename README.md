@@ -51,7 +51,3 @@ L'API de gestion des clients est exposée sur `http://localhost:8080/api/custome
 | `GET`        | `/api/customers/{id}` | Récupère les détails d'un client par ID |
 | `POST`       | `/api/customers`      | Crée un nouveau client                  |
 
-## 🗄️ Configuration de la base de données
-
-Par défaut, l'application est configurée pour auto-générer les tables (grâce à `quarkus.hibernate-orm.database.generation=update`) dans PostgreSQL via les entités JPA.
-Assurez-vous de modifier si besoin `src/main/resources/application.properties` pour correspondre à vos identifiants locaux de base de données.

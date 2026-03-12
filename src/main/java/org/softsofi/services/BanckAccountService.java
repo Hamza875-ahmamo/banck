@@ -13,15 +13,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface BanckAccountService {
-    public CustomerDto saveCustomer(CustomerDto customer);
-    CurrentAccount svaveCurrentBanckAccount(BigDecimal intialBalance, BigDecimal overDraft, Long customerId) throws CustomerNotFoundExeception;
-    SavingAccount svaveSavingBanckAccount(BigDecimal intialBalance,BigDecimal interestRate,Long customerId) throws CustomerNotFoundExeception;
-    List<CustomerDto> listCustomers();
-    BanckAccount getBanckAccountById(String accountId) throws BanckAccountNotFoundExeception;
-    void debit(String accountId, BigDecimal amount, String description) throws BanckAccountNotFoundExeception, BlanceNotSufficientExeception;
-    void credit(String accountId, BigDecimal amount, String description) throws BanckAccountNotFoundExeception;
-    void transfer(String accountIdSource, String accountIdDestination, BigDecimal amount) throws BlanceNotSufficientExeception, BanckAccountNotFoundExeception;
-
-    List<BanckAccount> listBanckAccounts();
-    public CustomerDto getCustomerById(Long id) throws CustomerNotFoundExeception;
+    CurrentBanckAccountDto saveCurrentBanckAccount(BigDecimal intialBalance, BigDecimal overDraft, Long customerId) throws CustomerNotFoundExeception;
+    SavingAccountDto saveSavingBanckAccount(BigDecimal intialBalance,BigDecimal interestRate,Long customerId) throws CustomerNotFoundExeception;
+    BanckAccountDto getBanckAccountById(String accountId) throws BanckAccountNotFoundExeception;
+    List<BanckAccountDto> listBanckAccounts();
 }

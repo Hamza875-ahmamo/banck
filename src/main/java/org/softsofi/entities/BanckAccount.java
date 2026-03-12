@@ -1,5 +1,6 @@
 package org.softsofi.entities;
 
+import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,9 +9,10 @@ import lombok.experimental.SuperBuilder;
 import org.softsofi.enums.AccountStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE",length = 4,discriminatorType = DiscriminatorType.STRING)
 @Entity
 @Data
@@ -21,7 +23,7 @@ public class BanckAccount {
     @Id
     private String id;
     private BigDecimal balance;
-    private Date createdAt;
+    private LocalDate createdAt;
     @ManyToOne
     private Customer customer;
     private AccountStatus status;
